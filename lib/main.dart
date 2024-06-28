@@ -3,7 +3,7 @@ import 'phone_tab.dart';
 
 void main() {
   runApp(MyApp());
-}햣
+}
 
 class MyApp extends StatelessWidget { //stateless 한번 쓰이면 변화 없음
   @override
