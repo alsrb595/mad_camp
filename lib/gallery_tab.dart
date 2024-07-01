@@ -1,13 +1,15 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'main.dart';
+import 'data_model.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class GalleryTab extends StatelessWidget {
@@ -46,6 +48,7 @@ class _FolderPageState extends State<FolderPage> {
   @override
   void initState() {
     super.initState();
+    Provider.of<DataModel>(context, listen: false).addListener(_onDataChanged);
     _loadFolders();
   }
 
@@ -98,6 +101,29 @@ class _FolderPageState extends State<FolderPage> {
     });
   }
 
+  @override
+  void dispose() {
+    Provider.of<DataModel>(context, listen: false).removeListener(_onDataChanged);
+    super.dispose();
+  }
+
+  void _onDataChanged() {
+    String newFolderName = Provider.of<DataModel>(context, listen: false).folders.last;
+    _addEmptyFolder(newFolderName);
+  }
+
+  Future<void> _addEmptyFolder(String folderName) async {
+    if (folderName.isNotEmpty) {
+      List<String> base64List = [];
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setStringList(folderName, base64List);
+      setState(() {
+        _folders.add(folderName);
+      });
+      await _saveFolders();
+    }
+  }
+
   Future<void> _addFolderWithImages(String folderName, List<XFile> images) async {
     if (folderName.isNotEmpty) {
       List<String> base64List = [];
@@ -141,7 +167,8 @@ class _FolderPageState extends State<FolderPage> {
               onPressed: () {
                 String folderName = folderNameController.text;
                 Navigator.of(context).pop();
-                _pickImages(folderName);
+                //_pickImages(folderName);
+                _addEmptyFolder(folderName);
               },
               child: Text('Next'),
             ),
