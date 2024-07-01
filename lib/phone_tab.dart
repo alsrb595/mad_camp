@@ -192,7 +192,7 @@ class _PhoneTabState extends State<PT> {
             crossAxisCount: 2,
             crossAxisSpacing: 10,
             mainAxisSpacing: 15,
-            childAspectRatio: 1.2,
+            childAspectRatio: 1.0,
           ),
           itemCount: _contacts.length,
           itemBuilder: (context, index) {
@@ -270,12 +270,24 @@ class _PhoneTabState extends State<PT> {
                         ),
                         SizedBox(width: 8),
                         Expanded(
-                          child: Text(contact.id),
+                          child: Text(
+                              contact.id,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17.0,
+                          ),
+                        ),
                         ),
                       ],
                     ),
                     SizedBox(height: 8),
-                    Text(contact.location),
+                    Text(
+                      contact.location,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17.0,
+                      ),
+                    ),
                     Text(contact.character),
                   ],
                 ),
