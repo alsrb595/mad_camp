@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:provider/provider.dart';
+import 'data_model.dart';
 import 'main.dart';
 
 void main() {
@@ -26,13 +27,22 @@ class PT extends StatefulWidget {
 
 class _PhoneTabState extends State<PT> {
   List<Contact> _contacts = [];
+  List<Contact> _filteredContacts = [];
   bool _selectionMode = false;
   Set<int> _selectedIndexes = Set();
+  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _loadContacts();
+    _searchController.addListener(_filterContacts);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadContacts() async {
@@ -42,30 +52,21 @@ class _PhoneTabState extends State<PT> {
       List<dynamic> contactsJson = json.decode(contactsString);
       setState(() {
         _contacts = contactsJson.map((json) => Contact.fromJson(json)).toList();
+        _filteredContacts = _contacts;
       });
-    } else {
-      _loadInitialData();
     }
-  }
-
-  Future<void> _loadInitialData() async {
-    String initialData = await rootBundle.loadString('assets/json/friends.json');
-    List<dynamic> initialDataJson = json.decode(initialData);
-    setState(() {
-      _contacts = initialDataJson.map((json) => Contact.fromJson(json)).toList();
-      _saveContacts();
-    });
   }
 
   Future<void> _saveContacts() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> contactsJson = _contacts.map((contact) => json.encode(contact.toJson())).toList();
+    List<Map<String, dynamic>> contactsJson = _contacts.map((contact) => contact.toJson()).toList();
     prefs.setString('contacts', json.encode(contactsJson));
   }
 
   void _addContact(Contact contact) {
     setState(() {
       _contacts.add(contact);
+      _filteredContacts = _contacts;
       _saveContacts();
     });
   }
@@ -78,9 +79,23 @@ class _PhoneTabState extends State<PT> {
           .where((entry) => !_selectedIndexes.contains(entry.key))
           .map((entry) => entry.value)
           .toList();
+      _filteredContacts = _contacts;
       _selectedIndexes.clear();
       _selectionMode = false;
       _saveContacts();
+    });
+  }
+
+  void _filterContacts() {
+    String query = _searchController.text.toLowerCase();
+    setState(() {
+      _filteredContacts = _contacts.where((contact) {
+        return contact.name.toLowerCase().contains(query) ||
+            contact.contact.toLowerCase().contains(query) ||
+            contact.id.toLowerCase().contains(query) ||
+            contact.location.toLowerCase().contains(query) ||
+            contact.character.toLowerCase().contains(query);
+      }).toList();
     });
   }
 
@@ -144,6 +159,7 @@ class _PhoneTabState extends State<PT> {
               child: Text('Add'),
               onPressed: () {
                 Navigator.of(context).pop();
+                Provider.of<DataModel>(context, listen: false).addFolder(name);
                 _addContact(Contact(
                   name: name,
                   contact: contact,
@@ -151,6 +167,76 @@ class _PhoneTabState extends State<PT> {
                   location: location,
                   character: character,
                 ));
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showEditContactDialog(int index) async {
+    Contact contact = _contacts[index];
+    TextEditingController nameController = TextEditingController(text: contact.name);
+    TextEditingController contactController = TextEditingController(text: contact.contact);
+    TextEditingController idController = TextEditingController(text: contact.id);
+    TextEditingController locationController = TextEditingController(text: contact.location);
+    TextEditingController characterController = TextEditingController(text: contact.character);
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Edit Contact'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(hintText: 'Name'),
+                ),
+                TextField(
+                  controller: contactController,
+                  decoration: InputDecoration(hintText: 'Contact'),
+                ),
+                TextField(
+                  controller: idController,
+                  decoration: InputDecoration(hintText: 'ID'),
+                ),
+                TextField(
+                  controller: locationController,
+                  decoration: InputDecoration(hintText: 'Location'),
+                ),
+                TextField(
+                  controller: characterController,
+                  decoration: InputDecoration(hintText: 'Character'),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Save'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() {
+                  _contacts[index] = Contact(
+                    name: nameController.text,
+                    contact: contactController.text,
+                    id: idController.text,
+                    location: locationController.text,
+                    character: characterController.text,
+                  );
+                  _filteredContacts = _contacts;
+                  _saveContacts();
+                });
               },
             ),
           ],
@@ -180,121 +266,136 @@ class _PhoneTabState extends State<PT> {
           ),
         ],
       ),
+      body: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: 'Search contacts...',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.search),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(10.0),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 6,
+                  mainAxisSpacing: 8,
+                  childAspectRatio: 1.2,
+                ),
+                itemCount: _filteredContacts.length,
+                itemBuilder: (context, index) {
+                  final contact = _filteredContacts[index];
+                  final isSelected = _selectedIndexes.contains(index);
+                  return GestureDetector(
+                    onLongPress: () {
+                      _showEditContactDialog(index);
+                    },
+                    onTap: () {
+                      if (_selectionMode) {
+                        setState(() {
+                          if (isSelected) {
+                            _selectedIndexes.remove(index);
+                          } else {
+                            _selectedIndexes.add(index);
+                          }
+                        });
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: isSelected ? Colors.blue.withOpacity(0.5) : Colors.white,
+                        border: Border.all(
+                          color: isSelected ? Colors.blue : Colors.grey,
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      margin: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 0.0),
+                          Text(
+                            '${contact.name}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13.0,
+                            ),
+                          ),
+                          SizedBox(height: 0),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                padding: EdgeInsets.zero,
+                                constraints: BoxConstraints(),
+                                icon: ImageIcon(
+                                  contact.contact == 'instagram' || contact.contact == 'insta'
+                                      ? AssetImage('assets/logos/instagram.png')
+                                      : contact.contact == 'facebook'
+                                      ? AssetImage('assets/logos/facebook.png')
+                                      : contact.contact == 'kakaotalk' || contact.contact == 'kakao'
+                                      ? AssetImage('assets/logos/kakao.png')
+                                      : contact.contact == 'line'
+                                      ? AssetImage('assets/logos/LINE.png')
+                                      : contact.contact == 'wechat'
+                                      ? AssetImage('assets/logos/wechat.png')
+                                      : contact.contact == 'whatsapp'
+                                      ? AssetImage('assets/logos/whatsapp.png')
+                                      : contact.contact == 'phone'
+                                      ? AssetImage('assets/logos/phone.png')
+                                      : AssetImage('assets/logos/phone.png'),
+                                  size: 25,
+                                ),
+                                onPressed: () {
+                                  print('Icon pressed');
+                                },
+                              ),
+                              SizedBox(width: 0),
+                              Text(
+                                contact.id,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            contact.location,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12.0,
+                            ),
+                          ),
+                          Text(
+                            contact.character,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12.0),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         elevation: 10.0,
         child: Icon(Icons.add),
         onPressed: _showAddContactDialog,
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(15.0),
-        child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 15,
-            childAspectRatio: 1.0,
-          ),
-          itemCount: _contacts.length,
-          itemBuilder: (context, index) {
-            final contact = _contacts[index];
-            final isSelected = _selectedIndexes.contains(index);
-            return GestureDetector(
-              onLongPress: () {
-                setState(() {
-                  _selectionMode = true;
-                  _selectedIndexes.add(index);
-                });
-              },
-              onTap: () {
-                if (_selectionMode) {
-                  setState(() {
-                    if (isSelected) {
-                      _selectedIndexes.remove(index);
-                    } else {
-                      _selectedIndexes.add(index);
-                    }
-                  });
-                }
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: isSelected ? Colors.blue.withOpacity(0.5) : Colors.white,
-                  border: Border.all(
-                    color: isSelected ? Colors.blue : Colors.grey,
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                margin: EdgeInsets.all(8.0),
-                padding: EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${contact.name}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          padding: EdgeInsets.zero,
-                          constraints: BoxConstraints(),
-                          icon: ImageIcon(
-                            contact.contact == 'instagram'
-                                ? AssetImage('assets/logos/instagram.png')
-                                : contact.contact == 'facebook'
-                                ? AssetImage('assets/logos/facebook.png')
-                                : contact.contact == 'twitter'
-                                ? AssetImage('assets/logos/twitter.png')
-                                : contact.contact == 'kakao'
-                                ? AssetImage('assets/logos/kakao.png')
-                                : contact.contact == 'line'
-                                ? AssetImage('assets/logos/LINE.png')
-                                : contact.contact == 'wechat'
-                                ? AssetImage('assets/logos/wechat.png')
-                                : contact.contact == 'whatsapp'
-                                ? AssetImage('assets/logos/whatsapp.png')
-                                : contact.contact == 'phone'
-                                ? AssetImage('assets/logos/phone.png')
-                                : AssetImage('assets/logos/default.png'),
-                            size: 30,
-                          ),
-                          onPressed: () {
-                            print('Icon pressed');
-                          },
-                        ),
-                        SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                              contact.id,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17.0,
-                          ),
-                        ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      contact.location,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17.0,
-                      ),
-                    ),
-                    Text(contact.character),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
       ),
     );
   }

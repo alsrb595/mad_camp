@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:test2/data_model.dart';
 import 'package:test2/gallery_tab.dart';
+import 'package:provider/provider.dart';
 import 'phone_tab.dart';
+import 'splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => DataModel(),
+      child: MyApp(),
+    ),
+    );
 }
 
 class MyApp extends StatelessWidget { //stateless 한번 쓰이면 변화 없음
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomeScreen(),
+      home: SplashScreen(),
     );
   }
 }
+
 
 class HomeScreen extends StatefulWidget { // stateful 상호작용에 따라 상태가 변하는 위젯
   @override
