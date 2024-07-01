@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:test2/gallery_tab.dart';
 import 'phone_tab.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
@@ -38,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> { //State<HomeScreen> :  Statef
         index: _selectedIndex,
         children: [
           PhoneTab(),
-          Center(child: Text("My")),
+          GalleryTab(),
           Center(child: Text("Menu")),
         ],
       ),
