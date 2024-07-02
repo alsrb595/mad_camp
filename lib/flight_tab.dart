@@ -50,6 +50,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
           scrolledUnderElevation: 0,
           title: Padding(
@@ -62,6 +63,7 @@ class MyHomePage extends StatelessWidget {
               ),
             ),
           ),
+
           backgroundColor: Colors.transparent,
           flexibleSpace: Container(
             decoration: BoxDecoration(
