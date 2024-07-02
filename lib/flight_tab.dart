@@ -50,44 +50,83 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Flights'),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50.0),
+        child: AppBar(
+          title: Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Text(
+              'Ticket',
+              style: TextStyle(
+                fontSize: 19,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ),
       ),
       body: Stack(
         children: [
-          ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.blueAccent),
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Image.asset(
-                              items[index]['icon'],
-                              width: 200.0,
+          Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 120.0),
+              child: ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                        top: 5.0,
+                        bottom: 10.0,
+                        left: 50.0,
+                        right: 50.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        // border: Border.all(
+                        //     color: Colors.black,
+                        //     width: 3.0,
+                        // ),
+                        borderRadius: BorderRadius.circular(54.0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black38,
+                            blurRadius: 3.0,
+                            spreadRadius: 1.0,
                           ),
-                          onPressed: () => _launchURL(items[index]['url']),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: 10.0
                         ),
-                        SizedBox(height: 8.0),
-                        Text(
-                          items[index]['text'],
-                          style: TextStyle(fontSize: 16.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Image.asset(
+                                  items[index]['icon'],
+                                  width: 150.0,
+                              ),
+                              onPressed: () => _launchURL(items[index]['url']),
+                            ),
+                            //SizedBox(height: 0.0),
+                            Text(
+                              items[index]['text'],
+                              style: TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 13.0,
+                                  fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              );
-            },
+                  );
+                },
+              ),
+            ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
