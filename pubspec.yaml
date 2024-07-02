@@ -49,7 +49,7 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 
 flutter_native_splash:
-  image: assets/applogo.png
+  image: assets/applogo_.png
   android: true
   ios: true
   web: true
@@ -85,6 +85,7 @@ flutter:
     - assets/json/friends.json
     - assets/loading.png
     - assets/applogo.png
+    - assets/applogo_.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
