@@ -50,9 +50,9 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(50.0),
-        child: AppBar(
+
+      appBar: AppBar(
+          scrolledUnderElevation: 0,
           title: Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: Text(
@@ -63,14 +63,29 @@ class MyHomePage extends StatelessWidget {
               ),
             ),
           ),
+
+          backgroundColor: Colors.transparent,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/appBar.png'),
+                  fit: BoxFit.cover,
+                ),
+            ),
+          ),
         ),
-      ),
       body: Stack(
         children: [
+          // Container(
+          //   child: Text(
+          //     'Select your airline',
+          //     textD
+          //   ),
+          // ),
           Container(
             color: Colors.white,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 120.0),
+              padding: const EdgeInsets.only(bottom: 110.0),
               child: ListView.builder(
                 itemCount: items.length,
                 itemBuilder: (context, index) {
@@ -105,8 +120,8 @@ class MyHomePage extends StatelessWidget {
                           children: [
                             IconButton(
                               icon: Image.asset(
-                                  items[index]['icon'],
-                                  width: 150.0,
+                                items[index]['icon'],
+                                width: 150.0,
                               ),
                               onPressed: () => _launchURL(items[index]['url']),
                             ),
@@ -114,9 +129,9 @@ class MyHomePage extends StatelessWidget {
                             Text(
                               items[index]['text'],
                               style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: 13.0,
-                                  fontWeight: FontWeight.w600,
+                                color: Colors.black54,
+                                fontSize: 13.0,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
