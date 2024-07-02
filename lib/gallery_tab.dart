@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'main.dart';
+import 'dt_model.dart';
 import 'data_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +25,9 @@ class GalleryTab extends StatelessWidget {
           primaryColor: Colors.white,
           fontFamily: 'Pretendard',
           primarySwatch: Colors.blue,
-          appBarTheme: AppBarTheme(
-            color: Colors.white,
-          )
+          // appBarTheme: AppBarTheme(
+          //   color: Colors.white,
+          // )
       ),
       home: const FolderPage(),
     );
@@ -45,13 +46,23 @@ class _FolderPageState extends State<FolderPage> {
   final ImagePicker _picker = ImagePicker();
   bool _selectionMode = false;
   List<int> _selectedIndexes = [];
-
+  List<String> del_folders = [];
   @override
   void initState() {
     super.initState();
-    Provider.of<DataModel>(context, listen: false).addListener(_onDataChanged);
+    final dataModel = Provider.of<DataModel>(context, listen: false).addListener(_onDataChanged);
+    // final dtModel = Provider.of<DtModel>(context, listen: false).addListener(_onDataDeleted);
     _loadFolders();
   }
+
+  // void _onDataDeleted(){
+  //   del_folders = Provider.of<DtModel>(context, listen: false).del_names;
+  //   print(del_folders);
+  //   if (del_folders.isNotEmpty) {
+  //     _deleteFolders();
+  //   }
+  // }
+
 
   Future<void> _loadFolders() async {
     final prefs = await SharedPreferences.getInstance();
@@ -69,7 +80,7 @@ class _FolderPageState extends State<FolderPage> {
   }
 
   Future<void> _deleteSelectedFolders() async {
-    _selectedIndexes.sort((a, b) => b.compareTo(a));
+    //_selectedIndexes.sort((a, b) => b.compareTo(a));
     final prefs = await SharedPreferences.getInstance();
     for (var index in _selectedIndexes) {
       String folderName = _folders[index];
@@ -81,6 +92,22 @@ class _FolderPageState extends State<FolderPage> {
       _selectionMode = false;
     });
     await _saveFolders();
+  }
+
+  Future<void> _deleteFolders() async {
+    final prefs = await SharedPreferences.getInstance();
+    for (var name in del_folders) {
+      _folders.remove(name);
+      await prefs.remove(name);
+    }
+    del_folders.clear();
+
+    setState(() {
+      _selectedIndexes.clear();
+      _selectionMode = false;
+    });
+    await _saveFolders();
+    Provider.of<DtModel>(context, listen: false).clearDelNames();
   }
 
   void _toggleSelection(int index) {
@@ -104,13 +131,20 @@ class _FolderPageState extends State<FolderPage> {
 
   @override
   void dispose() {
-    Provider.of<DataModel>(context, listen: false).removeListener(_onDataChanged);
+    final dataModel = Provider.of<DataModel>(context, listen: false);
+    dataModel.removeListener(_onDataChanged);
+
+    // final dtModel = Provider.of<DtModel>(context, listen: false);
+    // dtModel.removeListener(_onDataDeleted);
     super.dispose();
   }
 
+
   void _onDataChanged() {
+    final dataModel = Provider.of<DataModel>(context, listen: false);
     String newFolderName = Provider.of<DataModel>(context, listen: false).folders.last;
     _addEmptyFolder(newFolderName);
+
   }
 
   Future<void> _addEmptyFolder(String folderName) async {
@@ -212,24 +246,30 @@ class _FolderPageState extends State<FolderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white.withOpacity(1.0),
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(35.0),
-        child: AppBar(
-          title: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+          scrolledUnderElevation: 0,
+          title: Text(
               'Folders',
               style: TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.bold,
               ),
             ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/appBar.png'),
+                  fit: BoxFit.cover,
+                )
+            ),
           ),
+
+
 
           actions: [
             IconButton(
-              icon: Icon(_selectionMode ? Icons.close : Icons.check_box),
+              icon: Icon(_selectionMode ? Icons.close : Icons.check),
               onPressed: _toggleSelectionMode,
             ),
             if (_selectionMode && _selectedIndexes.isNotEmpty)
@@ -241,7 +281,7 @@ class _FolderPageState extends State<FolderPage> {
               ),
           ],
         ),
-      ),
+
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -484,7 +524,7 @@ class _GalleryPageState extends State<GalleryPage> {
             ),
             actions: [
               IconButton(
-                icon: Icon(_selectionMode ? Icons.close : Icons.check_box),
+                icon: Icon(_selectionMode ? Icons.close : Icons.check),
                 onPressed: _toggleSelectionMode,
               ),
               if (_selectionMode && _selectedIndexes.isNotEmpty)
@@ -590,12 +630,17 @@ class ImageDetailScreen extends StatelessWidget {
     PageController pageController = PageController(initialPage: initialIndex);
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(35.0),
-        child: AppBar(
-          backgroundColor: Colors.white.withOpacity(1.0),
+      appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/appBar.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
         ),
-      ),
       body: PageView.builder(
         controller: pageController,
         itemCount: imageBase64List.length,

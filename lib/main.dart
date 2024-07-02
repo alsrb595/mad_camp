@@ -5,15 +5,23 @@ import 'package:test2/flight_tab.dart';
 import 'package:provider/provider.dart';
 import 'phone_tab.dart';
 import 'splash_screen.dart';
+import 'dt_model.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => DataModel(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => DataModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DtModel(),
+        ),
+      ],
       child: MyApp(),
     ),
-    );
+  );
 }
 
 class MyApp extends StatelessWidget { //stateless 한번 쓰이면 변화 없음
@@ -57,12 +65,17 @@ class _HomeScreenState extends State<HomeScreen> { //State<HomeScreen> :  Statef
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.phone), label: 'Phone'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle_rounded), label: 'My'),
-          BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Flights'),
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/icons/phone.png')), label: 'Contact',),
+          BottomNavigationBarItem(
+              icon: ImageIcon(AssetImage('assets/icons/gallery.png')), label: 'Photos',),
+          BottomNavigationBarItem(
+              icon: ImageIcon(AssetImage('assets/icons/ticket.png')), label: 'Tickets',),
         ],
         currentIndex: _selectedIndex,
+        selectedItemColor: Colors.deepPurple,
+        unselectedItemColor: Colors.white,
+        backgroundColor: Color.fromRGBO(175, 173, 248, 1),
         onTap: _onItemTapped, //onTap 콜백 함수는 사용자가 BottomNavigationBarItem을 탭할 때마다 호출, 이 콜백 함수는 탭된 아이템의 인덱스를 인수로 받아옴.
       ),
     );

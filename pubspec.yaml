@@ -55,7 +55,6 @@ flutter_native_splash:
   android: true
   ios: true
   web: true
-  background_image: assets/loading.png
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -99,6 +98,12 @@ flutter:
     - assets/loading.png
     - assets/applogo.png
     - assets/applogo_.png
+    - assets/icons/gallery.png
+    - assets/icons/phone.png
+    - assets/icons/ticket.png
+    - assets/icons/plus.png
+    - assets/appBar.png
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
