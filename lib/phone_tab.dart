@@ -13,6 +13,14 @@ class PhoneTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+          fontFamily: 'Pretendard',
+          primarySwatch: Colors.blue,
+          appBarTheme: AppBarTheme(
+            color: Colors.white,
+          )
+      ),
       home: PT(),
     );
   }
