@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test2/gallery_tab.dart';
+import 'package:test2/flight_tab.dart';
 import 'phone_tab.dart';
 
 void main() {
@@ -11,6 +12,7 @@ class MyApp extends StatelessWidget { //stateless 한번 쓰이면 변화 없음
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: HomeScreen(),
     );
   }
@@ -41,14 +43,15 @@ class _HomeScreenState extends State<HomeScreen> { //State<HomeScreen> :  Statef
         children: [
           PhoneTab(),
           GalleryTab(),
-          Center(child: Text("Menu")),
+          FlightTab(),
+          //Center(child: Text("Menu")),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.phone), label: 'Phone'),
           BottomNavigationBarItem(icon: Icon(Icons.account_circle_rounded), label: 'My'),
-          BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Menu'),
+          BottomNavigationBarItem(icon: Icon(Icons.menu), label: 'Flights'),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped, //onTap 콜백 함수는 사용자가 BottomNavigationBarItem을 탭할 때마다 호출, 이 콜백 함수는 탭된 아이템의 인덱스를 인수로 받아옴.

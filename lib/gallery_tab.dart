@@ -7,7 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class GalleryTab extends StatelessWidget {
@@ -19,6 +19,7 @@ class GalleryTab extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Gallery App',
       theme: ThemeData(
+          primaryColor: Colors.white,
           fontFamily: 'Pretendard',
           primarySwatch: Colors.blue,
           appBarTheme: AppBarTheme(
