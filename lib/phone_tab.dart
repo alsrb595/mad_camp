@@ -19,8 +19,7 @@ class PhoneTab extends StatelessWidget {
           primarySwatch: Colors.blue,
           appBarTheme: AppBarTheme(
             color: Colors.white,
-          )
-      ),
+          )),
       home: PT(),
     );
   }
@@ -109,75 +108,97 @@ class _PhoneTabState extends State<PT> {
 
   Future<void> _showAddContactDialog() async {
     String name = '';
-    String contact = '';
+    String contact = 'phone';  // Default value
     String id = '';
     String location = '';
     String character = '';
+
+    List<String> contactOptions = [
+      'instagram',
+      'facebook',
+      'kakaotalk',
+      'line',
+      'wechat',
+      'whatsapp',
+      'phone',
+    ];
 
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Add Contact'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                TextField(
-                  decoration: InputDecoration(hintText: 'Name'),
-                  onChanged: (value) {
-                    name = value;
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text('Add Contact'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    TextField(
+                      decoration: InputDecoration(hintText: 'Name'),
+                      onChanged: (value) {
+                        name = value;
+                      },
+                    ),
+                    DropdownButton<String>(
+                      value: contact,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          contact = newValue!;
+                        });
+                      },
+                      items: contactOptions.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                    TextField(
+                      decoration: InputDecoration(hintText: 'ID'),
+                      onChanged: (value) {
+                        id = value;
+                      },
+                    ),
+                    TextField(
+                      decoration: InputDecoration(hintText: 'Location'),
+                      onChanged: (value) {
+                        location = value;
+                      },
+                    ),
+                    TextField(
+                      decoration: InputDecoration(hintText: 'Character'),
+                      onChanged: (value) {
+                        character = value;
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
                   },
                 ),
-                TextField(
-                  decoration: InputDecoration(hintText: 'Contact'),
-                  onChanged: (value) {
-                    contact = value;
-                  },
-                ),
-                TextField(
-                  decoration: InputDecoration(hintText: 'ID'),
-                  onChanged: (value) {
-                    id = value;
-                  },
-                ),
-                TextField(
-                  decoration: InputDecoration(hintText: 'Location'),
-                  onChanged: (value) {
-                    location = value;
-                  },
-                ),
-                TextField(
-                  decoration: InputDecoration(hintText: 'Character'),
-                  onChanged: (value) {
-                    character = value;
+                TextButton(
+                  child: Text('Add'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Provider.of<DataModel>(context, listen: false).addFolder(name);
+                    _addContact(Contact(
+                      name: name,
+                      contact: contact,
+                      id: id,
+                      location: location,
+                      character: character,
+                    ));
                   },
                 ),
               ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Add'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Provider.of<DataModel>(context, listen: false).addFolder(name);
-                _addContact(Contact(
-                  name: name,
-                  contact: contact,
-                  id: id,
-                  location: location,
-                  character: character,
-                ));
-              },
-            ),
-          ],
+            );
+          },
         );
       },
     );
@@ -186,68 +207,93 @@ class _PhoneTabState extends State<PT> {
   Future<void> _showEditContactDialog(int index) async {
     Contact contact = _contacts[index];
     TextEditingController nameController = TextEditingController(text: contact.name);
-    TextEditingController contactController = TextEditingController(text: contact.contact);
     TextEditingController idController = TextEditingController(text: contact.id);
     TextEditingController locationController = TextEditingController(text: contact.location);
     TextEditingController characterController = TextEditingController(text: contact.character);
+
+    List<String> contactOptions = [
+      'instagram',
+      'facebook',
+      'kakaotalk',
+      'line',
+      'wechat',
+      'whatsapp',
+      'phone',
+    ];
+
+    String dropdownValue = contact.contact;
 
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Edit Contact'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                TextField(
-                  controller: nameController,
-                  decoration: InputDecoration(hintText: 'Name'),
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text('Edit Contact'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    TextField(
+                      controller: nameController,
+                      decoration: InputDecoration(hintText: 'Name'),
+                    ),
+                    DropdownButton<String>(
+                      value: dropdownValue,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownValue = newValue!;
+                        });
+                      },
+                      items: contactOptions.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                    TextField(
+                      controller: idController,
+                      decoration: InputDecoration(hintText: 'ID'),
+                    ),
+                    TextField(
+                      controller: locationController,
+                      decoration: InputDecoration(hintText: 'Location'),
+                    ),
+                    TextField(
+                      controller: characterController,
+                      decoration: InputDecoration(hintText: 'Character'),
+                    ),
+                  ],
                 ),
-                TextField(
-                  controller: contactController,
-                  decoration: InputDecoration(hintText: 'Contact'),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                 ),
-                TextField(
-                  controller: idController,
-                  decoration: InputDecoration(hintText: 'ID'),
-                ),
-                TextField(
-                  controller: locationController,
-                  decoration: InputDecoration(hintText: 'Location'),
-                ),
-                TextField(
-                  controller: characterController,
-                  decoration: InputDecoration(hintText: 'Character'),
+                TextButton(
+                  child: Text('Save'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    setState(() {
+                      _contacts[index] = Contact(
+                        name: nameController.text,
+                        contact: dropdownValue,
+                        id: idController.text,
+                        location: locationController.text,
+                        character: characterController.text,
+                      );
+                      _filteredContacts = _contacts;
+                      _saveContacts();
+                    });
+                  },
                 ),
               ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Save'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                setState(() {
-                  _contacts[index] = Contact(
-                    name: nameController.text,
-                    contact: contactController.text,
-                    id: idController.text,
-                    location: locationController.text,
-                    character: characterController.text,
-                  );
-                  _filteredContacts = _contacts;
-                  _saveContacts();
-                });
-              },
-            ),
-          ],
+            );
+          },
         );
       },
     );
@@ -256,23 +302,35 @@ class _PhoneTabState extends State<PT> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Phone"),
-        backgroundColor: Colors.black54,
-        actions: [
-          IconButton(
-            icon: Icon(_selectionMode ? Icons.delete : Icons.check),
-            onPressed: () {
-              if (_selectionMode) {
-                _deleteSelectedContacts();
-              } else {
-                setState(() {
-                  _selectionMode = true;
-                });
-              }
-            },
+      backgroundColor: Colors.white.withOpacity(1.0),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50.0),
+        child: AppBar(
+          title: Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Text(
+              'Friends',
+              style: TextStyle(
+                fontSize: 19,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-        ],
+          actions: [
+            IconButton(
+              icon: Icon(_selectionMode ? Icons.delete : Icons.check),
+              onPressed: () {
+                if (_selectionMode) {
+                  _deleteSelectedContacts();
+                } else {
+                  setState(() {
+                    _selectionMode = true;
+                  });
+                }
+              },
+            ),
+          ],
+        ),
       ),
       body: Column(
         children: [

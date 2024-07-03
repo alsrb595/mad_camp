@@ -83,6 +83,11 @@ class _FolderPageState extends State<FolderPage> {
     await _saveFolders();
   }
 
+  Future<void> _editFolderName(String NewName, int index) async {
+    _folders[index] = NewName;
+    await _saveFolders();
+  }
+
   void _toggleSelection(int index) {
     setState(() {
       if (_selectedIndexes.contains(index)) {
@@ -111,6 +116,12 @@ class _FolderPageState extends State<FolderPage> {
   void _onDataChanged() {
     String newFolderName = Provider.of<DataModel>(context, listen: false).folders.last;
     _addEmptyFolder(newFolderName);
+  }
+
+  void _onDataEdited() {
+    String newFolderName = Provider.of<DataModel>(context, listen: false).folders.last;
+    int editIndex = 0;
+    _editFolderName(newFolderName, editIndex);
   }
 
   Future<void> _addEmptyFolder(String folderName) async {
@@ -214,10 +225,10 @@ class _FolderPageState extends State<FolderPage> {
     return Scaffold(
       backgroundColor: Colors.white.withOpacity(1.0),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(35.0),
+        preferredSize: Size.fromHeight(50.0),
         child: AppBar(
           title: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(top: 10.0),
             child: Text(
               'Folders',
               style: TextStyle(
@@ -229,8 +240,8 @@ class _FolderPageState extends State<FolderPage> {
 
           actions: [
             IconButton(
-              icon: Icon(_selectionMode ? Icons.close : Icons.check_box),
-              onPressed: _toggleSelectionMode,
+              icon: Icon(_selectionMode ? Icons.close : Icons.check_box), //_selectionMode =0 -> check_box
+              onPressed: _toggleSelectionMode,  // 이 함수 갔다오면 위에 iconbutton 다시 들어가
             ),
             if (_selectionMode && _selectedIndexes.isNotEmpty)
               IconButton(

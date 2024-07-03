@@ -18,25 +18,29 @@ class _SplashScreen extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(
-            'assets/loading.png',
-            fit: BoxFit.cover,
-          ),
-          Container(
-            color: Colors.white.withOpacity(0.15),
-          ),
-          Center(
-            child: Image.asset(
-              'assets/applogo.png',
-              width: 200,
-              height: 200,
-            )
-          )
-        ],
+      body: Image.asset(
+        'assets/loading.png',
+        fit: BoxFit.cover,
       ),
+      // body: Stack(
+      //   fit: StackFit.expand,
+      //   children: [
+      //     Image.asset(
+      //       'assets/loading.png',
+      //       fit: BoxFit.cover,
+      //     ),
+      //     Container(
+      //       color: Colors.white.withOpacity(0.15),
+      //     ),
+      //     Center(
+      //       child: Image.asset(
+      //         'assets/applogo.png',
+      //         width: 200,
+      //         height: 200,
+      //       )
+      //     )
+      //   ],
+      // ),
     );
   }
 }

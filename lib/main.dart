@@ -57,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> { //State<HomeScreen> :  Statef
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.phone), label: 'Phone'),
           BottomNavigationBarItem(icon: Icon(Icons.account_circle_rounded), label: 'My'),
