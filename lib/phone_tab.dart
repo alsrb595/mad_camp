@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'data_model.dart';
 import 'main.dart';
+import 'dt_model.dart';
+import 'dart:ui';
 
 void main() {
   runApp(MyApp());
@@ -87,8 +89,9 @@ class _PhoneTabState extends State<PT> {
           .map((entry) => entry.value)
           .toList();
       _filteredContacts = _contacts;
-      _selectedIndexes.clear();
+      // Provider.of<DtModel>(context, listen: false).removeFolder(context, _selectedIndexes, _contacts);
       _selectionMode = false;
+      _selectedIndexes.clear();
       _saveContacts();
     });
   }
@@ -200,6 +203,31 @@ class _PhoneTabState extends State<PT> {
             );
           },
         );
+      ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Add'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Provider.of<DataModel>(context, listen: false).addFolder(Contact(name: name, contact: contact, id: id, location: location, character: character));
+                _addContact(Contact(
+                  name: name,
+                  contact: contact,
+                  id: id,
+                  location: location,
+                  character: character,
+                ));
+              },
+            ),
+          ],
+
+        );
       },
     );
   }
@@ -302,19 +330,31 @@ class _PhoneTabState extends State<PT> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white.withOpacity(1.0),
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(50.0),
-        child: AppBar(
-          title: Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Text(
-              'Friends',
-              style: TextStyle(
-                fontSize: 19,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        scrolledUnderElevation: 0,
+        title: Text("Phone"),
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/appBar.png'),
+              fit: BoxFit.cover,
+            )
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(_selectionMode ? Icons.delete : Icons.check),
+            onPressed: () {
+              if (_selectionMode) {
+                _deleteSelectedContacts();
+              } else {
+                setState(() {
+                  _selectionMode = true;
+                });
+              }
+            },
           ),
           actions: [
             IconButton(
@@ -340,7 +380,9 @@ class _PhoneTabState extends State<PT> {
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: 'Search contacts...',
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                ),
                 prefixIcon: Icon(Icons.search),
               ),
             ),
@@ -376,12 +418,21 @@ class _PhoneTabState extends State<PT> {
                     },
                     child: Container(
                       decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 2,
+                            offset: Offset(0, 2), // changes position of shadow
+                          ),
+                        ],
                         color: isSelected ? Colors.blue.withOpacity(0.5) : Colors.white,
                         border: Border.all(
                           color: isSelected ? Colors.blue : Colors.grey,
-                          width: 1,
+                          width: 2,
+
                         ),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(15),
                       ),
                       margin: EdgeInsets.all(8.0),
                       padding: EdgeInsets.all(8.0),
@@ -459,8 +510,14 @@ class _PhoneTabState extends State<PT> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        elevation: 10.0,
-        child: Icon(Icons.add),
+        elevation: 0.0,
+        child: Image.asset(
+          'assets/icons/plus.png',
+          height: 50.0,
+          width: 50.0,
+          fit: BoxFit.cover,
+        ),
+        backgroundColor: Colors.transparent,
         onPressed: _showAddContactDialog,
       ),
     );
