@@ -123,19 +123,48 @@ class _PhoneTabState extends State<PT> {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Add Contact'),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          title: Center(
+            child: Text('Add Contact'),
+          ),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 TextField(
-                  decoration: InputDecoration(hintText: 'Name'),
+                  decoration: InputDecoration(
+                    hintText: 'Name',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black54),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  ),
                   onChanged: (value) {
                     name = value;
                   },
                 ),
+                SizedBox(height: 15),
                 StatefulBuilder(
                   builder: (BuildContext context, StateSetter setState) {
-                    return DropdownButton<String>(
+                    return DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black54),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                      ),
                       value: contact,
                       onChanged: (String? newValue) {
                         setState(() {
@@ -148,23 +177,66 @@ class _PhoneTabState extends State<PT> {
                           child: Text(value),
                         );
                       }).toList(),
+                      itemHeight: 50,
                     );
                   },
                 ),
+                SizedBox(height: 15),
                 TextField(
-                  decoration: InputDecoration(hintText: 'ID'),
+                  decoration: InputDecoration(
+                    hintText: 'ID',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black54),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  ),
                   onChanged: (value) {
                     id = value;
                   },
                 ),
+                SizedBox(height: 15),
                 TextField(
-                  decoration: InputDecoration(hintText: 'Location'),
+                  decoration: InputDecoration(
+                    hintText: 'Location',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black54),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  ),
                   onChanged: (value) {
                     location = value;
                   },
                 ),
+                SizedBox(height: 15),
                 TextField(
-                  decoration: InputDecoration(hintText: 'Character'),
+                  decoration: InputDecoration(
+                    hintText: 'Character',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black54),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  ),
                   onChanged: (value) {
                     character = value;
                   },
@@ -173,25 +245,44 @@ class _PhoneTabState extends State<PT> {
             ),
           ),
           actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Add'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Provider.of<DataModel>(context, listen: false).addFolder(Contact(name: name, contact: contact, id: id, location: location, character: character));
-                _addContact(Contact(
-                  name: name,
-                  contact: contact,
-                  id: id,
-                  location: location,
-                  character: character,
-                ));
-              },
+            Row(
+              children: <Widget>[
+                TextButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(175, 173, 248, 1),
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+                Spacer(),
+                TextButton(
+                  child: Text('Add'),
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(175, 173, 248, 1),
+                    foregroundColor: Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Provider.of<DataModel>(context, listen: false).addFolder(Contact(
+                      name: name,
+                      contact: contact,
+                      id: id,
+                      location: location,
+                      character: character,
+                    ));
+                    _addContact(Contact(
+                      name: name,
+                      contact: contact,
+                      id: id,
+                      location: location,
+                      character: character,
+                    ));
+                  },
+                ),
+              ],
             ),
           ],
         );
@@ -213,7 +304,12 @@ class _PhoneTabState extends State<PT> {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Edit Contact'),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          title: Center(
+            child: Text('Edit Contact'),
+          ),
           content: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return SingleChildScrollView(
@@ -221,9 +317,33 @@ class _PhoneTabState extends State<PT> {
                   children: <Widget>[
                     TextField(
                       controller: nameController,
-                      decoration: InputDecoration(hintText: 'Name'),
+                      decoration: InputDecoration(
+                        hintText: 'Name',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black54),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                      ),
                     ),
-                    DropdownButton<String>(
+                    SizedBox(height: 15),
+                    DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black54),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                      ),
                       value: selectedContact.isEmpty ? contactList[0] : selectedContact,
                       onChanged: (String? newValue) {
                         setState(() {
@@ -236,18 +356,61 @@ class _PhoneTabState extends State<PT> {
                           child: Text(value),
                         );
                       }).toList(),
+                      itemHeight: 50,
                     ),
+                    SizedBox(height: 15),
                     TextField(
                       controller: idController,
-                      decoration: InputDecoration(hintText: 'ID'),
+                      decoration: InputDecoration(
+                        hintText: 'ID',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black54),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                      ),
                     ),
+                    SizedBox(height: 15),
                     TextField(
                       controller: locationController,
-                      decoration: InputDecoration(hintText: 'Location'),
+                      decoration: InputDecoration(
+                        hintText: 'Location',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black54),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                      ),
                     ),
+                    SizedBox(height: 15),
                     TextField(
                       controller: characterController,
-                      decoration: InputDecoration(hintText: 'Character'),
+                      decoration: InputDecoration(
+                        hintText: 'Character',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black54),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -255,34 +418,48 @@ class _PhoneTabState extends State<PT> {
             },
           ),
           actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Save'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                setState(() {
-                  _contacts[index] = Contact(
-                    name: nameController.text,
-                    contact: selectedContact,
-                    id: idController.text,
-                    location: locationController.text,
-                    character: characterController.text,
-                  );
-                  _filteredContacts = _contacts;
-                  _saveContacts();
-                });
-              },
+            Row(
+              children: [
+                TextButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(175, 173, 248, 1),
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+                Spacer(),
+                TextButton(
+                  child: Text('Save'),
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(175, 173, 248, 1),
+                    foregroundColor: Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    setState(() {
+                      _contacts[index] = Contact(
+                        name: nameController.text,
+                        contact: selectedContact,
+                        id: idController.text,
+                        location: locationController.text,
+                        character: characterController.text,
+                      );
+                      _filteredContacts = _contacts;
+                      _saveContacts();
+                    });
+                  },
+                ),
+              ],
             ),
           ],
         );
       },
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -316,9 +493,25 @@ class _PhoneTabState extends State<PT> {
         ],
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+
         children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color.fromRGBO(175, 173, 248, 1),
+                  Color.fromRGBO(175, 173, 248, 0.7),
+                  Color.fromRGBO(175, 173, 248, 0.1),
+                ],
+              ),
+            ),
+            padding: EdgeInsets.all(3.0),
+          ),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(2.0),
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
@@ -327,12 +520,13 @@ class _PhoneTabState extends State<PT> {
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 ),
                 prefixIcon: Icon(Icons.search),
+                contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
               ),
             ),
           ),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 5.0),
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
@@ -382,22 +576,25 @@ class _PhoneTabState extends State<PT> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 0.0),
-                          Text(
-                            '${contact.name}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13.0,
-                            ),
+                          SizedBox(height: 8.0),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                                child:
+                                    Text(
+                                      contact.name,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12.0,
+                                      ),
+                                )
+                            )
                           ),
-                          SizedBox(height: 0),
+                          SizedBox(height: 8),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                padding: EdgeInsets.zero,
-                                constraints: BoxConstraints(),
-                                icon: ImageIcon(
+                            children: <Widget>[
+                                ImageIcon(
                                   AssetImage(
                                     contact.contact.toLowerCase() == 'instagram' || contact.contact.toLowerCase() == 'insta'
                                         ? 'assets/logos/instagram.png'
@@ -415,35 +612,55 @@ class _PhoneTabState extends State<PT> {
                                         ? 'assets/logos/phone.png'
                                         : 'assets/logos/phone.png',
                                   ),
-                                  size: 25,
+                                  size: 20,
+
                                 ),
-                                onPressed: () {
-                                  print('Icon pressed');
-                                },
-                              ),
-                              SizedBox(width: 0),
-                              Text(
-                                contact.id,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12.0,
-                                ),
-                              ),
-                            ],
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        contact.id,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12.0,
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                )
+                              )
+                              ],
                           ),
-                          Text(
-                            contact.location,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12.0,
-                            ),
+                          SizedBox(height: 8.0),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child:
+                                  Text(
+                                    contact.location,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12.0,
+                                    ),
+                              )
+                            )
                           ),
-                          Text(
-                            contact.character,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12.0),
-                          ),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.vertical,
+                              child:
+                                  Text(
+                                    contact.character,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12.0,
+                                    ),
+                              )
+                            )
+                          )
                         ],
                       ),
                     ),
