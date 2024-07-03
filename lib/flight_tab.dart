@@ -154,6 +154,7 @@ class MyHomePage extends StatelessWidget {
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
+                                  //Text('data'),
                                   IconButton(
                                     icon: Image.asset(
                                       items[index]['icon'],

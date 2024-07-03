@@ -467,7 +467,7 @@ class _PhoneTabState extends State<PT> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        title: Text("Phone"),
+        title: Text("People"),
         backgroundColor: Colors.transparent,
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -479,17 +479,34 @@ class _PhoneTabState extends State<PT> {
         ),
         actions: [
           IconButton(
-            icon: Icon(_selectionMode ? Icons.delete : Icons.check),
+            icon: Icon(_selectionMode ? Icons.close : Icons.check),
             onPressed: () {
-              if (_selectionMode) {
-                _deleteSelectedContacts();
-              } else {
-                setState(() {
-                  _selectionMode = true;
-                });
-              }
+              setState(() {
+                _selectionMode = !_selectionMode;
+              });
             },
           ),
+          if (_selectionMode && _selectedIndexes.isNotEmpty)
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                _deleteSelectedContacts();
+                },
+              ),
+
+
+          // IconButton(
+          //   icon: Icon(_selectionMode ? Icons.delete : Icons.check),
+          //   onPressed: () {
+          //     if (_selectionMode) {
+          //       _deleteSelectedContacts();
+          //     } else {
+          //       setState(() {
+          //         _selectionMode = true;
+          //       });
+          //     }
+          //   },
+          // ),
         ],
       ),
       body: Column(
@@ -662,7 +679,6 @@ class _PhoneTabState extends State<PT> {
                             )
                           )
                         ],
-                      ),
                     ),
                   );
                 },
