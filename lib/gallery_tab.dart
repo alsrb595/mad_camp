@@ -47,10 +47,12 @@ class FolderPageState extends State<FolderPage> {
   bool _selectionMode = false;
   List<int> _selectedIndexes = [];
   List<String> del_folders = [];
+
   @override
   void initState() {
     super.initState();
-    final dataModel = Provider.of<DataModel>(context, listen: false).addListener(_onDataChanged);
+    final dataModel = Provider.of<DataModel>(context, listen: false)
+        .addListener(_onDataChanged);
     // final dtModel = Provider.of<DtModel>(context, listen: false).addListener(_onDataDeleted);
     _loadFolders();
   }
@@ -148,9 +150,11 @@ class FolderPageState extends State<FolderPage> {
 
   void _onDataChanged() {
     final dataModel = Provider.of<DataModel>(context, listen: false);
-    String newFolderName = Provider.of<DataModel>(context, listen: false).folders.last;
+    String newFolderName = Provider
+        .of<DataModel>(context, listen: false)
+        .folders
+        .last;
     _addEmptyFolder(newFolderName);
-
   }
 
   // void _onDataEdited() {
@@ -171,7 +175,8 @@ class FolderPageState extends State<FolderPage> {
     }
   }
 
-  Future<void> _addFolderWithImages(String folderName, List<XFile> images) async {
+  Future<void> _addFolderWithImages(String folderName,
+      List<XFile> images) async {
     if (folderName.isNotEmpty) {
       List<String> base64List = [];
       for (var file in images) {
@@ -196,29 +201,48 @@ class FolderPageState extends State<FolderPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('New Folder'),
+          title: Center(
+            child: Text('New Folder'),
+          ),
           content: TextField(
             controller: folderNameController,
             decoration: InputDecoration(
               labelText: 'Folder Name',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                String folderName = folderNameController.text;
-                Navigator.of(context).pop();
-                _pickImages(folderName);
-                //_addEmptyFolder(folderName);
-              },
-              child: Text('Next'),
-            ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(175, 173, 248, 1),
+                    foregroundColor: Colors.white,
+                  ),
+                  child: Text('Cancel'),
+                ),
+                Spacer(),
+                TextButton(
+                  onPressed: () {
+                    String folderName = folderNameController.text;
+                    Navigator.of(context).pop();
+                    //_pickImages(folderName);
+                    _addEmptyFolder(folderName);
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(175, 173, 248, 1),
+                    foregroundColor: Colors.white,
+                  ),
+                  child: Text('Next'),
+                ),
+              ],
+            )
           ],
         );
       },
@@ -251,7 +275,7 @@ class FolderPageState extends State<FolderPage> {
     );
 
     if (result == true) {
-      _loadFolders();  // 이미지 변경 시 폴더 리스트 갱신
+      _loadFolders(); // 이미지 변경 시 폴더 리스트 갱신
     }
   }
 
@@ -260,43 +284,56 @@ class FolderPageState extends State<FolderPage> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: AppBar(
-          scrolledUnderElevation: 0,
-          title: Text(
-              'Folders',
-              style: TextStyle(
-                fontSize: 19,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/appBar.png'),
-                  fit: BoxFit.cover,
-              )
+        scrolledUnderElevation: 0,
+        title: Text(
+          'Folders',
+          style: TextStyle(
+            fontSize: 19,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/appBar.png'),
+              fit: BoxFit.cover,
             ),
           ),
-
-          actions: [
-            IconButton(
-              icon: Icon(_selectionMode ? Icons.close : Icons.check),
-              onPressed: _toggleSelectionMode,
-            ),
-            if (_selectionMode && _selectedIndexes.isNotEmpty)
-              IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () async {
-                  await _deleteSelectedFolders();
-                },
-              ),
-          ],
         ),
-
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            Expanded(
+        actions: [
+          IconButton(
+            icon: Icon(_selectionMode ? Icons.close : Icons.check),
+            onPressed: _toggleSelectionMode,
+          ),
+          if (_selectionMode && _selectedIndexes.isNotEmpty)
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () async {
+                await _deleteSelectedFolders();
+              },
+            ),
+        ],
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color.fromRGBO(175, 173, 248, 1),
+                  Color.fromRGBO(175, 173, 248, 0.7),
+                  Color.fromRGBO(175, 173, 248, 0.1),
+                ],
+              ),
+            ),
+            padding: EdgeInsets.all(3.0),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20.0, right: 20.0, top:8.0),
               child: _folders.isNotEmpty
                   ? GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -338,12 +375,12 @@ class FolderPageState extends State<FolderPage> {
                                   color: _selectedIndexes.contains(index)
                                       ? Colors.black.withOpacity(0.5)
                                       : null,
-                                  colorBlendMode: _selectedIndexes.contains(index)
+                                  colorBlendMode: _selectedIndexes.contains(
+                                      index)
                                       ? BlendMode.darken
                                       : null,
                                 )
                                     : null,
-                                // : Center(child: Text(_folders[index])),
                               ),
                             );
                           },
@@ -363,17 +400,16 @@ class FolderPageState extends State<FolderPage> {
                           left: 0,
                           right: 0,
                           child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 8),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(4.5),
-                              //color: Colors.white54,
                               color: Colors.black26,
                             ),
                             child: Center(
                               child: Text(
                                 _folders[index],
                                 style: TextStyle(
-                                  //color: Colors.black,
                                   color: Colors.white,
                                   fontSize: 16,
                                   fontWeight: FontWeight.normal,
@@ -392,18 +428,23 @@ class FolderPageState extends State<FolderPage> {
                 child: Text('No folders created.'),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
+        elevation: 0.0,
+        child: Image.asset(
+          'assets/icons/folder.png',
+          height: 50.0,
+          width: 50.0,
+          fit: BoxFit.cover,
+        ),
+        backgroundColor: Colors.transparent,
         onPressed: _showAddFolderDialog,
-        tooltip: 'Add Folder',
-        child: const Icon(Icons.create_new_folder),
       ),
     );
   }
 }
-
 class GalleryPage extends StatefulWidget {
   final String folderName;
 

@@ -35,15 +35,51 @@ class MyHomePage extends StatelessWidget {
   }
 
   final List<Map<String, dynamic>> items = [
-    {'icon': 'assets/logos/1KoreanAir.png', 'url': 'https://www.koreanair.com/?hl=ko', 'text': '대한항공'},
-    {'icon': 'assets/logos/2Asiana.png', 'url': 'https://flyasiana.com/C/KR/KO/index', 'text': '아시아나항공'},
-    {'icon': 'assets/logos/3JEJUair.png', 'url': 'https://www.jejuair.net/ko/main/base/index.do', 'text': '제주항공'},
-    {'icon': 'assets/logos/4JinAir.png', 'url': 'https://www.jinair.com/booking/index', 'text': '진에어'},
-    {'icon': 'assets/logos/5tway.png', 'url': 'https://www.twayair.com/app/main', 'text': '티웨이항공'},
-    {'icon': 'assets/logos/6AirSeoul.png', 'url': 'https://flyairseoul.com/CW/ko/main.do', 'text': '에어서울'},
-    {'icon': 'assets/logos/7Eastar.png', 'url': 'https://www.eastarjet.com/newstar/PGWHC00001', 'text': '이스타항공'},
-    {'icon': 'assets/logos/8AirBusan.png', 'url': 'https://m.airbusan.com/mc/common/home', 'text': '에어부산'},
-    {'icon': 'assets/logos/9AirPREMIA.png', 'url': 'https://www.airpremia.com/', 'text': '에어프리미어항공'},
+    {
+      'icon': 'assets/logos/1KoreanAir.png',
+      'url': 'https://www.koreanair.com/?hl=ko',
+      'text': '대한항공'
+    },
+    {
+      'icon': 'assets/logos/2Asiana.png',
+      'url': 'https://flyasiana.com/C/KR/KO/index',
+      'text': '아시아나항공'
+    },
+    {
+      'icon': 'assets/logos/3JEJUair.png',
+      'url': 'https://www.jejuair.net/ko/main/base/index.do',
+      'text': '제주항공'
+    },
+    {
+      'icon': 'assets/logos/4JinAir.png',
+      'url': 'https://www.jinair.com/booking/index',
+      'text': '진에어'
+    },
+    {
+      'icon': 'assets/logos/5tway.png',
+      'url': 'https://www.twayair.com/app/main',
+      'text': '티웨이항공'
+    },
+    {
+      'icon': 'assets/logos/6AirSeoul.png',
+      'url': 'https://flyairseoul.com/CW/ko/main.do',
+      'text': '에어서울'
+    },
+    {
+      'icon': 'assets/logos/7Eastar.png',
+      'url': 'https://www.eastarjet.com/newstar/PGWHC00001',
+      'text': '이스타항공'
+    },
+    {
+      'icon': 'assets/logos/8AirBusan.png',
+      'url': 'https://m.airbusan.com/mc/common/home',
+      'text': '에어부산'
+    },
+    {
+      'icon': 'assets/logos/9AirPREMIA.png',
+      'url': 'https://www.airpremia.com/',
+      'text': '에어프리미어항공'
+    },
   ];
 
   @override
@@ -52,7 +88,7 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         scrolledUnderElevation: 0,
         title: Padding(
-          padding: const EdgeInsets.only(top: 10.0),
+          padding: const EdgeInsets.only(top: 0.0),
           child: Text(
             'Ticket',
             style: TextStyle(
@@ -75,16 +111,18 @@ class MyHomePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: EdgeInsets.all(16.0),
-            color: Colors.white,
-            child: Text(
-              'Select your preferred airline',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color.fromRGBO(175, 173, 248, 1),
+                  Color.fromRGBO(175, 173, 248, 0.7),
+                  Color.fromRGBO(175, 173, 248, 0.1),
+                ],
               ),
-              textAlign: TextAlign.center,
             ),
+            padding: EdgeInsets.all(3.0),
           ),
           Expanded(
             child: Stack(
@@ -92,7 +130,7 @@ class MyHomePage extends StatelessWidget {
                 Container(
                   color: Colors.white,
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 100.0),
+                    padding: const EdgeInsets.only(top: 10, bottom: 112.0),
                     child: ListView.builder(
                       itemCount: items.length,
                       itemBuilder: (context, index) {
@@ -154,22 +192,22 @@ class MyHomePage extends StatelessWidget {
                       builder: (BuildContext context, ScrollController scrollController) {
                         return Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(16.0),
-                              topRight: Radius.circular(16.0),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black54,
-                                blurRadius: 6.0,
-                                spreadRadius: 1.0,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(16.0),
+                                topRight: Radius.circular(16.0),
                               ),
-                            ],
-                            image: DecorationImage(
-                              image: AssetImage('assets/BoardingPass.png'),
-                              fit: BoxFit.cover,
-                              alignment: Alignment.topCenter,
-                            )
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black54,
+                                  blurRadius: 6.0,
+                                  spreadRadius: 1.0,
+                                ),
+                              ],
+                              image: DecorationImage(
+                                image: AssetImage('assets/BoardingPass.png'),
+                                fit: BoxFit.cover,
+                                alignment: Alignment.topCenter,
+                              )
                           ),
                           child: SingleChildScrollView(
                             controller: scrollController,
@@ -187,4 +225,3 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
-
