@@ -38,10 +38,10 @@ class FolderPage extends StatefulWidget {
   const FolderPage({Key? key}) : super(key: key);
 
   @override
-  State<FolderPage> createState() => _FolderPageState();
+  State<FolderPage> createState() => FolderPageState();
 }
 
-class _FolderPageState extends State<FolderPage> {
+class FolderPageState extends State<FolderPage> {
   List<String> _folders = [];
   final ImagePicker _picker = ImagePicker();
   bool _selectionMode = false;
@@ -107,7 +107,7 @@ class _FolderPageState extends State<FolderPage> {
       _selectionMode = false;
     });
     await _saveFolders();
-    Provider.of<DtModel>(context, listen: false).clearDelNames();
+    //
   }
 
   void _toggleSelection(int index) {
