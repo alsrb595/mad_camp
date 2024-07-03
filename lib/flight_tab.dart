@@ -85,7 +85,6 @@ class MyHomePage extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-
           ),
           Expanded(
             child: Stack(
@@ -99,7 +98,7 @@ class MyHomePage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.only(
-                              top: 5.0, bottom: 10.0, left: 50.0, right: 50.0),
+                              top: 5.0, bottom: 5.0, left: 30.0, right: 30.0),
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
@@ -107,7 +106,7 @@ class MyHomePage extends StatelessWidget {
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black38,
-                                  blurRadius: 3.0,
+                                  blurRadius: 2.0,
                                   spreadRadius: 1.0,
                                 ),
                               ],
@@ -127,11 +126,13 @@ class MyHomePage extends StatelessWidget {
                                   Text(
                                     items[index]['text'],
                                     style: TextStyle(
-                                      color: Colors.black54,
-                                      fontSize: 13.0,
-                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black38,
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w500,
+                                      height: 0.5,
                                     ),
                                   ),
+                                  SizedBox(height: 4.0),
                                 ],
                               ),
                             ),
@@ -148,11 +149,10 @@ class MyHomePage extends StatelessWidget {
                     child: DraggableScrollableSheet(
                       initialChildSize: 0.2,
                       minChildSize: 0.2,
-                      maxChildSize: 0.98,
+                      maxChildSize: 0.93,
                       builder: (BuildContext context, ScrollController scrollController) {
                         return Container(
                           decoration: BoxDecoration(
-                            color: Color.fromRGBO(103, 110, 171, 1),
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(16.0),
                               topRight: Radius.circular(16.0),
@@ -164,28 +164,14 @@ class MyHomePage extends StatelessWidget {
                                 spreadRadius: 1.0,
                               ),
                             ],
+                            image: DecorationImage(
+                              image: AssetImage('assets/BoardingPass.png'),
+                              fit: BoxFit.cover,
+                              alignment: Alignment.topCenter,
+                            )
                           ),
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 30,
-                                child: Center(
-                                  child: Icon(
-                                    Icons.drag_handle,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: SingleChildScrollView(
-                                  controller: scrollController,
-                                  child: Container(
-                                    color: Color.fromRGBO(103, 110, 171, 1),
-                                    height: 400,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          child: SingleChildScrollView(
+                            controller: scrollController,
                           ),
                         );
                       },
@@ -200,3 +186,4 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
+

@@ -27,6 +27,25 @@ class _SplashScreen extends State<SplashScreen> {
           ),
         ],
       ),
+      // body: Stack(
+      //   fit: StackFit.expand,
+      //   children: [
+      //     Image.asset(
+      //       'assets/loading.png',
+      //       fit: BoxFit.cover,
+      //     ),
+      //     Container(
+      //       color: Colors.white.withOpacity(0.15),
+      //     ),
+      //     Center(
+      //       child: Image.asset(
+      //         'assets/applogo.png',
+      //         width: 200,
+      //         height: 200,
+      //       )
+      //     )
+      //   ],
+      // ),
     );
   }
 }
