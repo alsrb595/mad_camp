@@ -94,6 +94,12 @@ class FolderPageState extends State<FolderPage> {
     await _saveFolders();
   }
 
+
+//   Future<void> _editFolderName(String NewName, int index) async {
+//     _folders[index] = NewName;
+//     await _saveFolders();
+//   }
+
   Future<void> _deleteFolders() async {
     final prefs = await SharedPreferences.getInstance();
     for (var name in del_folders) {
@@ -145,6 +151,12 @@ class FolderPageState extends State<FolderPage> {
     String newFolderName = Provider.of<DataModel>(context, listen: false).folders.last;
     _addEmptyFolder(newFolderName);
 
+  }
+
+  void _onDataEdited() {
+    String newFolderName = Provider.of<DataModel>(context, listen: false).folders.last;
+    int editIndex = 0;
+    _editFolderName(newFolderName, editIndex);
   }
 
   Future<void> _addEmptyFolder(String folderName) async {
@@ -261,7 +273,7 @@ class FolderPageState extends State<FolderPage> {
                 image: DecorationImage(
                   image: AssetImage('assets/appBar.png'),
                   fit: BoxFit.cover,
-                )
+              )
             ),
           ),
 

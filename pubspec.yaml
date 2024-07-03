@@ -97,6 +97,8 @@ flutter:
     
     - assets/loading.png
     - assets/applogo.png
+    - assets/BoardingPass.png
+
     - assets/applogo_.png
     - assets/icons/gallery.png
     - assets/icons/phone.png
@@ -124,7 +126,11 @@ flutter:
     - family: Pretendard
       fonts:
         - asset: assets/fonts/Pretendard-Light.ttf
+          weight: 400
+        - asset: assets/fonts/Pretendard-Regular.ttf
+          weight: 500
         - asset: assets/fonts/Pretendard-Bold.ttf
+          weight: 600
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
