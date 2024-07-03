@@ -15,9 +15,9 @@ void main() {
         ChangeNotifierProvider(
           create: (context) => DataModel(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => DtModel(),
-        ),
+        // ChangeNotifierProvider(
+        //   create: (context) => DtModel(),
+        // ),
       ],
       child: MyApp(),
     ),

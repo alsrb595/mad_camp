@@ -1,4 +1,5 @@
 // import 'package:flutter/material.dart';
+// import 'gallery_tab.dart';
 // import 'phone_tab.dart';
 // import 'data_model.dart';
 // import 'package:provider/provider.dart';
@@ -8,8 +9,12 @@
 //
 //   List<String> get del_names => _del_names;
 //
-//   void removeFolder(BuildContext context, Set<int> indexes, List<Contact> contacts) {
-//     _del_names = indexes.map((index) => contacts[index].name).toList();
+//   void removeFolder(Set<int> indexes) {
+//     FolderPageState state = FolderPageState();
+//     for(var i in indexes) {
+//       del_names.add(state.folders[i]);
+//     }
+//     print(del_names);
 //     notifyListeners();
 //   }
 //

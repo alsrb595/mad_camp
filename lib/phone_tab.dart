@@ -21,7 +21,8 @@ class PhoneTab extends StatelessWidget {
           primarySwatch: Colors.blue,
           appBarTheme: AppBarTheme(
             color: Colors.white,
-          )),
+          )
+      ),
       home: PT(),
     );
   }
@@ -89,7 +90,7 @@ class _PhoneTabState extends State<PT> {
           .map((entry) => entry.value)
           .toList();
       _filteredContacts = _contacts;
-      // Provider.of<DtModel>(context, listen: false).removeFolder(context, _selectedIndexes, _contacts);
+      // Provider.of<DtModel>(context, listen: false).removeFolder(_selectedIndexes);
       _selectionMode = false;
       _selectedIndexes.clear();
       _saveContacts();
@@ -110,100 +111,67 @@ class _PhoneTabState extends State<PT> {
   }
 
   Future<void> _showAddContactDialog() async {
+    List<String> contactList = ['Phone', 'Instagram', 'KakaoTalk', 'Facebook', 'Line', 'WhatsApp', 'WeChat'];
     String name = '';
-    String contact = 'phone';  // Default value
+    String contact = contactList[1];
     String id = '';
     String location = '';
     String character = '';
-
-    List<String> contactOptions = [
-      'instagram',
-      'facebook',
-      'kakaotalk',
-      'line',
-      'wechat',
-      'whatsapp',
-      'phone',
-    ];
 
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              title: Text('Add Contact'),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    TextField(
-                      decoration: InputDecoration(hintText: 'Name'),
-                      onChanged: (value) {
-                        name = value;
-                      },
-                    ),
-                    DropdownButton<String>(
+        return AlertDialog(
+          title: Text('Add Contact'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                TextField(
+                  decoration: InputDecoration(hintText: 'Name'),
+                  onChanged: (value) {
+                    name = value;
+                  },
+                ),
+                StatefulBuilder(
+                  builder: (BuildContext context, StateSetter setState) {
+                    return DropdownButton<String>(
                       value: contact,
                       onChanged: (String? newValue) {
                         setState(() {
                           contact = newValue!;
                         });
                       },
-                      items: contactOptions.map<DropdownMenuItem<String>>((String value) {
+                      items: contactList.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
                         );
                       }).toList(),
-                    ),
-                    TextField(
-                      decoration: InputDecoration(hintText: 'ID'),
-                      onChanged: (value) {
-                        id = value;
-                      },
-                    ),
-                    TextField(
-                      decoration: InputDecoration(hintText: 'Location'),
-                      onChanged: (value) {
-                        location = value;
-                      },
-                    ),
-                    TextField(
-                      decoration: InputDecoration(hintText: 'Character'),
-                      onChanged: (value) {
-                        character = value;
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('Cancel'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
+                    );
                   },
                 ),
-                TextButton(
-                  child: Text('Add'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    Provider.of<DataModel>(context, listen: false).addFolder(name);
-                    _addContact(Contact(
-                      name: name,
-                      contact: contact,
-                      id: id,
-                      location: location,
-                      character: character,
-                    ));
+                TextField(
+                  decoration: InputDecoration(hintText: 'ID'),
+                  onChanged: (value) {
+                    id = value;
+                  },
+                ),
+                TextField(
+                  decoration: InputDecoration(hintText: 'Location'),
+                  onChanged: (value) {
+                    location = value;
+                  },
+                ),
+                TextField(
+                  decoration: InputDecoration(hintText: 'Character'),
+                  onChanged: (value) {
+                    character = value;
                   },
                 ),
               ],
-            );
-          },
-        );
-      ),
+            ),
+          ),
           actions: <Widget>[
             TextButton(
               child: Text('Cancel'),
@@ -226,7 +194,6 @@ class _PhoneTabState extends State<PT> {
               },
             ),
           ],
-
         );
       },
     );
@@ -235,31 +202,21 @@ class _PhoneTabState extends State<PT> {
   Future<void> _showEditContactDialog(int index) async {
     Contact contact = _contacts[index];
     TextEditingController nameController = TextEditingController(text: contact.name);
+    List<String> contactList = ['Phone', 'Instagram', 'KakaoTalk', 'Facebook', 'Line', 'WhatsApp', 'WeChat'];
+    String selectedContact = contact.contact; // 초기값을 contact의 값으로 설정
     TextEditingController idController = TextEditingController(text: contact.id);
     TextEditingController locationController = TextEditingController(text: contact.location);
     TextEditingController characterController = TextEditingController(text: contact.character);
-
-    List<String> contactOptions = [
-      'instagram',
-      'facebook',
-      'kakaotalk',
-      'line',
-      'wechat',
-      'whatsapp',
-      'phone',
-    ];
-
-    String dropdownValue = contact.contact;
 
     return showDialog<void>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              title: Text('Edit Contact'),
-              content: SingleChildScrollView(
+        return AlertDialog(
+          title: Text('Edit Contact'),
+          content: StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return SingleChildScrollView(
                 child: ListBody(
                   children: <Widget>[
                     TextField(
@@ -267,13 +224,13 @@ class _PhoneTabState extends State<PT> {
                       decoration: InputDecoration(hintText: 'Name'),
                     ),
                     DropdownButton<String>(
-                      value: dropdownValue,
+                      value: selectedContact.isEmpty ? contactList[0] : selectedContact,
                       onChanged: (String? newValue) {
                         setState(() {
-                          dropdownValue = newValue!;
+                          selectedContact = newValue!;
                         });
                       },
-                      items: contactOptions.map<DropdownMenuItem<String>>((String value) {
+                      items: contactList.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -294,34 +251,34 @@ class _PhoneTabState extends State<PT> {
                     ),
                   ],
                 ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('Cancel'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                TextButton(
-                  child: Text('Save'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    setState(() {
-                      _contacts[index] = Contact(
-                        name: nameController.text,
-                        contact: dropdownValue,
-                        id: idController.text,
-                        location: locationController.text,
-                        character: characterController.text,
-                      );
-                      _filteredContacts = _contacts;
-                      _saveContacts();
-                    });
-                  },
-                ),
-              ],
-            );
-          },
+              );
+            },
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Save'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                setState(() {
+                  _contacts[index] = Contact(
+                    name: nameController.text,
+                    contact: selectedContact,
+                    id: idController.text,
+                    location: locationController.text,
+                    character: characterController.text,
+                  );
+                  _filteredContacts = _contacts;
+                  _saveContacts();
+                });
+              },
+            ),
+          ],
         );
       },
     );
@@ -337,10 +294,10 @@ class _PhoneTabState extends State<PT> {
         backgroundColor: Colors.transparent,
         flexibleSpace: Container(
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/appBar.png'),
-              fit: BoxFit.cover,
-            )
+              image: DecorationImage(
+                image: AssetImage('assets/appBar.png'),
+                fit: BoxFit.cover,
+              )
           ),
         ),
         actions: [
@@ -356,21 +313,7 @@ class _PhoneTabState extends State<PT> {
               }
             },
           ),
-          actions: [
-            IconButton(
-              icon: Icon(_selectionMode ? Icons.delete : Icons.check),
-              onPressed: () {
-                if (_selectionMode) {
-                  _deleteSelectedContacts();
-                } else {
-                  setState(() {
-                    _selectionMode = true;
-                  });
-                }
-              },
-            ),
-          ],
-        ),
+        ],
       ),
       body: Column(
         children: [
@@ -455,21 +398,23 @@ class _PhoneTabState extends State<PT> {
                                 padding: EdgeInsets.zero,
                                 constraints: BoxConstraints(),
                                 icon: ImageIcon(
-                                  contact.contact == 'instagram' || contact.contact == 'insta'
-                                      ? AssetImage('assets/logos/instagram.png')
-                                      : contact.contact == 'facebook'
-                                      ? AssetImage('assets/logos/facebook.png')
-                                      : contact.contact == 'kakaotalk' || contact.contact == 'kakao'
-                                      ? AssetImage('assets/logos/kakao.png')
-                                      : contact.contact == 'line'
-                                      ? AssetImage('assets/logos/LINE.png')
-                                      : contact.contact == 'wechat'
-                                      ? AssetImage('assets/logos/wechat.png')
-                                      : contact.contact == 'whatsapp'
-                                      ? AssetImage('assets/logos/whatsapp.png')
-                                      : contact.contact == 'phone'
-                                      ? AssetImage('assets/logos/phone.png')
-                                      : AssetImage('assets/logos/phone.png'),
+                                  AssetImage(
+                                    contact.contact.toLowerCase() == 'instagram' || contact.contact.toLowerCase() == 'insta'
+                                        ? 'assets/logos/instagram.png'
+                                        : contact.contact.toLowerCase() == 'facebook'
+                                        ? 'assets/logos/facebook.png'
+                                        : contact.contact.toLowerCase() == 'kakaotalk' || contact.contact.toLowerCase() == 'kakao'
+                                        ? 'assets/logos/kakao.png'
+                                        : contact.contact.toLowerCase() == 'line'
+                                        ? 'assets/logos/LINE.png'
+                                        : contact.contact.toLowerCase() == 'wechat'
+                                        ? 'assets/logos/wechat.png'
+                                        : contact.contact.toLowerCase() == 'whatsapp'
+                                        ? 'assets/logos/whatsapp.png'
+                                        : contact.contact.toLowerCase() == 'phone'
+                                        ? 'assets/logos/phone.png'
+                                        : 'assets/logos/phone.png',
+                                  ),
                                   size: 25,
                                 ),
                                 onPressed: () {

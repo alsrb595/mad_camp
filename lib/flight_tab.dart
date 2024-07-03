@@ -13,12 +13,12 @@ class FlightTab extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flights',
       theme: ThemeData(
-          primaryColor: Colors.white,
-          fontFamily: 'Pretendard',
-          primarySwatch: Colors.blue,
-          appBarTheme: AppBarTheme(
-            color: Colors.white,
-          )
+        primaryColor: Colors.white,
+        fontFamily: 'Pretendard',
+        primarySwatch: Colors.blue,
+        appBarTheme: AppBarTheme(
+          color: Colors.white,
+        ),
       ),
       home: MyHomePage(),
     );
@@ -27,7 +27,6 @@ class FlightTab extends StatelessWidget {
 
 class MyHomePage extends StatelessWidget {
   void _launchURL(String url) async {
-    //const url = 'https://www.koreanair.com/?hl=ko';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -50,136 +49,136 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
-          scrolledUnderElevation: 0,
-          title: Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Text(
-              'Ticket',
-              style: TextStyle(
-                fontSize: 19,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-
-          backgroundColor: Colors.transparent,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/appBar.png'),
-                  fit: BoxFit.cover,
-                ),
+        scrolledUnderElevation: 0,
+        title: Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: Text(
+            'Ticket',
+            style: TextStyle(
+              fontSize: 19,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
-      body: Stack(
-        children: [
-          // Container(
-          //   child: Text(
-          //     'Select your airline',
-          //     textD
-          //   ),
-          // ),
-          Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 102.0),
-              child: ListView.builder(
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                        top: 5.0,
-                        bottom: 5.0,
-                        left: 30.0,
-                        right: 30.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        // border: Border.all(
-                        //     color: Colors.black,
-                        //     width: 3.0,
-                        // ),
-                        borderRadius: BorderRadius.circular(54.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black38,
-                            blurRadius: 2.0,
-                            spreadRadius: 1.0,
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 10.0
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              padding: EdgeInsets.zero,
-                              icon: Image.asset(
-                                items[index]['icon'],
-                                width: 150.0,
-                              ),
-                              onPressed: () => _launchURL(items[index]['url']),
-                            ),
-                            Text(
-                              items[index]['text'],
-                              style: TextStyle(
-                                  color: Colors.black38,
-                                  fontSize: 12.0,
-                                  fontWeight: FontWeight.w500,
-                                  height: 0.5,
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/appBar.png'),
+              fit: BoxFit.cover,
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              width: MediaQuery.of(context).size.width *0.94,
-              child: DraggableScrollableSheet(
-                initialChildSize: 0.18, // 초기 크기
-                minChildSize: 0.18, // 최소 크기
-                maxChildSize: 0.93,
-                // maxChildSize: 0.98, // 최대 크기 (전체 화면)
-                builder: (BuildContext context, ScrollController scrollController) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(16.0),
-                        topRight: Radius.circular(16.0),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black54,
-                          blurRadius: 6.0,
-                          spreadRadius: 1.0,
-                        ),
-                      ],
-                      image: DecorationImage(
-                        image: AssetImage('assets/BoardingPass.png'),
-                        fit: BoxFit.cover,
-                        alignment: Alignment.topCenter,
-                      ),
-                    ),
-                    child: SingleChildScrollView(
-                      controller: scrollController,
-                    ),
-                  );
-                },
+        ),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            padding: EdgeInsets.all(16.0),
+            color: Colors.white,
+            child: Text(
+              'Select your preferred airline',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Expanded(
+            child: Stack(
+              children: [
+                Container(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 100.0),
+                    child: ListView.builder(
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(
+                              top: 5.0, bottom: 5.0, left: 30.0, right: 30.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(54.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black38,
+                                  blurRadius: 2.0,
+                                  spreadRadius: 1.0,
+                                ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: Image.asset(
+                                      items[index]['icon'],
+                                      width: 150.0,
+                                    ),
+                                    onPressed: () => _launchURL(items[index]['url']),
+                                  ),
+                                  Text(
+                                    items[index]['text'],
+                                    style: TextStyle(
+                                      color: Colors.black38,
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w500,
+                                      height: 0.5,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4.0),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.94,
+                    child: DraggableScrollableSheet(
+                      initialChildSize: 0.2,
+                      minChildSize: 0.2,
+                      maxChildSize: 0.93,
+                      builder: (BuildContext context, ScrollController scrollController) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(16.0),
+                              topRight: Radius.circular(16.0),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black54,
+                                blurRadius: 6.0,
+                                spreadRadius: 1.0,
+                              ),
+                            ],
+                            image: DecorationImage(
+                              image: AssetImage('assets/BoardingPass.png'),
+                              fit: BoxFit.cover,
+                              alignment: Alignment.topCenter,
+                            )
+                          ),
+                          child: SingleChildScrollView(
+                            controller: scrollController,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -187,3 +186,4 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
+
