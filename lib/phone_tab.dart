@@ -290,7 +290,7 @@ class _PhoneTabState extends State<PT> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        title: Text("Phone"),
+        title: Text("People"),
         backgroundColor: Colors.transparent,
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -302,17 +302,34 @@ class _PhoneTabState extends State<PT> {
         ),
         actions: [
           IconButton(
-            icon: Icon(_selectionMode ? Icons.delete : Icons.check),
+            icon: Icon(_selectionMode ? Icons.close : Icons.check),
             onPressed: () {
-              if (_selectionMode) {
-                _deleteSelectedContacts();
-              } else {
-                setState(() {
-                  _selectionMode = true;
-                });
-              }
+              setState(() {
+                _selectionMode = !_selectionMode;
+              });
             },
           ),
+          if (_selectionMode && _selectedIndexes.isNotEmpty)
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                _deleteSelectedContacts();
+                },
+              ),
+
+
+          // IconButton(
+          //   icon: Icon(_selectionMode ? Icons.delete : Icons.check),
+          //   onPressed: () {
+          //     if (_selectionMode) {
+          //       _deleteSelectedContacts();
+          //     } else {
+          //       setState(() {
+          //         _selectionMode = true;
+          //       });
+          //     }
+          //   },
+          // ),
         ],
       ),
       body: Column(
@@ -359,93 +376,106 @@ class _PhoneTabState extends State<PT> {
                         });
                       }
                     },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 2,
-                            offset: Offset(0, 2), // changes position of shadow
-                          ),
-                        ],
-                        color: isSelected ? Colors.blue.withOpacity(0.5) : Colors.white,
-                        border: Border.all(
-                          color: isSelected ? Colors.blue : Colors.grey,
-                          width: 2,
-
-                        ),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      margin: EdgeInsets.all(8.0),
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 0.0),
-                          Text(
-                            '${contact.name}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 13.0,
-                            ),
-                          ),
-                          SizedBox(height: 0),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                padding: EdgeInsets.zero,
-                                constraints: BoxConstraints(),
-                                icon: ImageIcon(
-                                  AssetImage(
-                                    contact.contact.toLowerCase() == 'instagram' || contact.contact.toLowerCase() == 'insta'
-                                        ? 'assets/logos/instagram.png'
-                                        : contact.contact.toLowerCase() == 'facebook'
-                                        ? 'assets/logos/facebook.png'
-                                        : contact.contact.toLowerCase() == 'kakaotalk' || contact.contact.toLowerCase() == 'kakao'
-                                        ? 'assets/logos/kakao.png'
-                                        : contact.contact.toLowerCase() == 'line'
-                                        ? 'assets/logos/LINE.png'
-                                        : contact.contact.toLowerCase() == 'wechat'
-                                        ? 'assets/logos/wechat.png'
-                                        : contact.contact.toLowerCase() == 'whatsapp'
-                                        ? 'assets/logos/whatsapp.png'
-                                        : contact.contact.toLowerCase() == 'phone'
-                                        ? 'assets/logos/phone.png'
-                                        : 'assets/logos/phone.png',
-                                  ),
-                                  size: 25,
-                                ),
-                                onPressed: () {
-                                  print('Icon pressed');
-                                },
+                    child: Stack(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 1,
+                                offset: Offset(0, 2), // changes position of shadow
                               ),
-                              SizedBox(width: 0),
+                            ],
+                            color: isSelected ? Colors.black.withOpacity(0.10) : Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          margin: EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(13.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 0.0),
                               Text(
-                                contact.id,
+                                '${contact.name}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 12.0,
+                                  fontSize: 14.0,
+                                  height: 1.0,
                                 ),
+                              ),
+                              SizedBox.shrink(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                    padding: EdgeInsets.zero,
+                                    constraints: BoxConstraints(),
+                                    icon: ImageIcon(
+                                      AssetImage(
+                                        contact.contact.toLowerCase() == 'instagram' || contact.contact.toLowerCase() == 'insta'
+                                            ? 'assets/logos/instagram.png'
+                                            : contact.contact.toLowerCase() == 'facebook'
+                                            ? 'assets/logos/facebook.png'
+                                            : contact.contact.toLowerCase() == 'kakaotalk' || contact.contact.toLowerCase() == 'kakao'
+                                            ? 'assets/logos/kakao.png'
+                                            : contact.contact.toLowerCase() == 'line'
+                                            ? 'assets/logos/LINE.png'
+                                            : contact.contact.toLowerCase() == 'wechat'
+                                            ? 'assets/logos/wechat.png'
+                                            : contact.contact.toLowerCase() == 'whatsapp'
+                                            ? 'assets/logos/whatsapp.png'
+                                            : contact.contact.toLowerCase() == 'phone'
+                                            ? 'assets/logos/phone.png'
+                                            : 'assets/logos/phone.png',
+                                      ),
+                                      size: 20,
+                                    ),
+                                    onPressed: () {
+                                      print('Icon pressed');
+                                    },
+                                  ),
+                                  SizedBox.shrink(),
+                                  Text(
+                                    contact.id,
+                                    style: TextStyle(
+                                      //fontWeight: FontWeight.bold,
+                                      fontSize: 12.0,
+                                      height: 1.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                contact.location,
+                                style: TextStyle(
+                                  //fontWeight: FontWeight.normal,
+                                  fontSize: 12.0,
+                                  height: 1.2,
+                                ),
+                              ),
+                              Text(
+                                contact.character,
+                                style: TextStyle(
+                                  //fontWeight: FontWeight.bold,
+                                  fontSize: 12.0,
+                                  height: 1.2,),
                               ),
                             ],
                           ),
-                          Text(
-                            contact.location,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12.0,
+                        ),
+                        if (isSelected)
+                          Positioned(
+                            top: 15,
+                            right: 15,
+                            child: Icon(
+                              Icons.check_circle,
+                              color: Colors.white,
                             ),
                           ),
-                          Text(
-                            contact.character,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12.0),
-                          ),
                         ],
-                      ),
                     ),
                   );
                 },

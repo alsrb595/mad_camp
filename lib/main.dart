@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> { //State<HomeScreen> :  Statef
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/icons/phone.png')), label: 'Contact',),
+          BottomNavigationBarItem(icon: ImageIcon(AssetImage('assets/icons/phone.png')), label: 'People',),
           BottomNavigationBarItem(
               icon: ImageIcon(AssetImage('assets/icons/gallery.png')), label: 'Photos',),
           BottomNavigationBarItem(

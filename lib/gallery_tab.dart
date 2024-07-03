@@ -153,11 +153,11 @@ class FolderPageState extends State<FolderPage> {
 
   }
 
-  void _onDataEdited() {
-    String newFolderName = Provider.of<DataModel>(context, listen: false).folders.last;
-    int editIndex = 0;
-    _editFolderName(newFolderName, editIndex);
-  }
+  // void _onDataEdited() {
+  //   String newFolderName = Provider.of<DataModel>(context, listen: false).folders.last;
+  //   int editIndex = 0;
+  //   _editFolderName(newFolderName, editIndex);
+  // }
 
   Future<void> _addEmptyFolder(String folderName) async {
     if (folderName.isNotEmpty) {
@@ -214,8 +214,8 @@ class FolderPageState extends State<FolderPage> {
               onPressed: () {
                 String folderName = folderNameController.text;
                 Navigator.of(context).pop();
-                //_pickImages(folderName);
-                _addEmptyFolder(folderName);
+                _pickImages(folderName);
+                //_addEmptyFolder(folderName);
               },
               child: Text('Next'),
             ),
@@ -276,8 +276,6 @@ class FolderPageState extends State<FolderPage> {
               )
             ),
           ),
-
-
 
           actions: [
             IconButton(
