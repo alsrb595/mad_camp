@@ -34,6 +34,7 @@ People 탭에서 소중한 인연을 추가할 때마다 Photos 탭에 사진 �
 휴대폰 갤러리 속 수많은 사진들 중 정확히 그 사람과 함께했던 순간들을 폴더 별로 정리하여 저장할 수 있습니다.
 
 ![image](https://github.com/alsrb595/mad_camp/assets/127878736/2c95a801-f16c-4f71-b317-79f4b29c3590), ![image](https://github.com/alsrb595/mad_camp/assets/127878736/964f28b2-7e6c-4c50-8c5a-e19b7244ca33)
+
 ![image](https://github.com/alsrb595/mad_camp/assets/127878736/bbaf3c97-e398-4a62-a713-91072ed10883)
 
 Widgets : `GridView`로 격자 모양의 사람별 폴더 제작, `SharedPreference`에 폴더 속 이미지를 기록하여 폴더 미리보기 화면을 폴더 속 첫 이미지로 반영
@@ -42,6 +43,21 @@ Widgets : `GridView`로 격자 모양의 사람별 폴더 제작, `SharedPrefere
 ## Tab3 : Tickets
 여행기록들을 정리하다보면 새로운 여행을 계획하게 되는 유저들을 위한 탭입니다.
 대한항공과 아시아나항공을 비롯한 국내 대표 항공사 9곳의 항공권 예매 홈페이지로 이동할 수 있고, 화면 하단에는 곧 예정된 여행에 대한 모바일 항공권 티켓을 저장할 수 있습니다.
+
+![image](https://github.com/alsrb595/mad_camp/assets/127878736/fdf80daf-5f30-428d-b6f2-30481d2bfcc7), ![image](https://github.com/alsrb595/mad_camp/assets/127878736/d992bd03-da94-4525-913b-417fc665a9a6)
+
+
+
+
+https://github.com/alsrb595/mad_camp/assets/127878736/3bfdff59-6937-41d1-bd06-082dcd069b05
+
+https://github.com/alsrb595/mad_camp/assets/127878736/1ceec3ce-4314-4e9a-b9fd-cc9fc3240d9c
+
+https://github.com/alsrb595/mad_camp/assets/127878736/72608a5c-d720-4b00-956f-4509b24392fa
+
+https://github.com/alsrb595/mad_camp/assets/127878736/45f804ae-cfa8-4215-be61-a5416927e522
+
+
 
 
 
