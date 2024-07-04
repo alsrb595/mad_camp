@@ -1,4 +1,4 @@
-# madcamp_week1
+![image](https://github.com/alsrb595/mad_camp/assets/127878736/86691d03-9b38-411d-b44c-33f384382327)# madcamp_week1
 
 A new Flutter project.
 
@@ -12,6 +12,9 @@ A new Flutter project.
 ## Tab1: People
 외국인 친구와 연락처 교환할 때 서로 자주 사용하는 연락 수단이 다를 수 있습니다.
 친구가 알려주었던 연락수단과 연락처를 한번에 볼 수 있고, 첫인상이나 특징들을 기록할 수 있습니다.
+![image](https://github.com/alsrb595/mad_camp/assets/127878736/fccf5265-fc68-4289-bf78-6da3bd6b550d)
+
+
 
 ## Tab2: Folders
 People 탭에서 소중한 인연을 추가할 때마다 Photos 탭에 사진 폴더가 생깁니다.
