@@ -4,13 +4,19 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+휴대폰 속 어딘가에 숨어 있는 여행가서 얻은 소중한 인연, 잊지 못할 추억들을 관리하고 추억하게 해줄 수 있는 플러터 기반으로 제작한 앱입니다. 
 
-A few resources to get you started if this is your first Flutter project:
+여행 기록 도우미 ‘Trip-Minder’는 Trip + Reminder를 합친 단어로, 여행에서 만난 사람들 한명 한명의 연락처와 포토를 보여주는 앱입니다.
+여행을 좋아하는 분들이 사용한느 앱인만큼 비행기 티켓 예매와 모바일 티켓 저장이 가능합니다. 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Tab1: People
+외국인 친구와 연락처 교환할 때 서로 자주 사용하는 연락 수단이 다를 수 있습니다.
+친구가 알려주었던 연락수단과 연락처를 한번에 볼 수 있고, 첫인상이나 특징들을 기록할 수 있습니다.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Tab2: Folders
+People 탭에서 소중한 인연을 추가할 때마다 Photos 탭에 사진 폴더가 생깁니다.
+휴대폰 갤러리 속 수많은 사진들 중 정확히 그 사람과 함께했던 순간들을 폴더 별로 정리하여 저장할 수 있습니다.
+
+## Tab3 : Tickets
+여행기록들을 정리하다보면 새로운 여행을 계획하게 되는 유저들을 위한 탭입니다.
+대한항공과 아시아나항공을 비롯한 국내 대표 항공사 9곳의 항공권 예매 홈페이지로 이동할 수 있고, 화면 하단에는 곧 예정된 여행에 대한 모바일 항공권 티켓을 저장할 수 있습니다.
