@@ -53,10 +53,6 @@ https://github.com/alsrb595/mad_camp/assets/127878736/3bfdff59-6937-41d1-bd06-08
 
 https://github.com/alsrb595/mad_camp/assets/127878736/1ceec3ce-4314-4e9a-b9fd-cc9fc3240d9c
 
-
-https://github.com/alsrb595/mad_camp/assets/127878736/412ff79c-14aa-417f-b166-0fc57987c6e5
-
-
 https://github.com/alsrb595/mad_camp/assets/127878736/72608a5c-d720-4b00-956f-4509b24392fa
 
 https://github.com/alsrb595/mad_camp/assets/127878736/45f804ae-cfa8-4215-be61-a5416927e522
