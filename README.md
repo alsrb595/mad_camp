@@ -13,7 +13,8 @@ Team: 강지우, 정민규
 외국인 친구와 연락처 교환할 때 서로 자주 사용하는 연락 수단이 다를 수 있습니다.
 친구가 알려주었던 연락수단과 연락처를 한번에 볼 수 있고, 첫인상이나 특징들을 기록할 수 있습니다.
 
-![image](https://github.com/alsrb595/mad_camp/assets/127878736/fccf5265-fc68-4289-bf78-6da3bd6b550d), ![image](https://github.com/alsrb595/mad_camp/assets/127878736/7c7a9988-5a8e-4cf1-8000-dc57520ff856)
+<img src="https://github.com/alsrb595/mad_camp/assets/127878736/fccf5265-fc68-4289-bf78-6da3bd6b550d" width="300"/>
+<img src="https://github.com/alsrb595/mad_camp/assets/127878736/7c7a9988-5a8e-4cf1-8000-dc57520ff856" width="300"/>
 
 Widgets :  `GridView`로 격자 모양으로 각 사람별 정보를 저장,  `AlertDialog` 이용해서 친구 정보 추가,  `SharedPreference` 사용해서 앱을 껐다 켜도 저장되도록 했습니다.
 
@@ -33,9 +34,9 @@ Widgets :  `GridView`로 격자 모양으로 각 사람별 정보를 저장,  `A
 People 탭에서 소중한 인연을 추가할 때마다 Photos 탭에 사진 폴더가 생깁니다.
 휴대폰 갤러리 속 수많은 사진들 중 정확히 그 사람과 함께했던 순간들을 폴더 별로 정리하여 저장할 수 있습니다.
 
-![image](https://github.com/alsrb595/mad_camp/assets/127878736/2c95a801-f16c-4f71-b317-79f4b29c3590), ![image](https://github.com/alsrb595/mad_camp/assets/127878736/964f28b2-7e6c-4c50-8c5a-e19b7244ca33)
-
-![image](https://github.com/alsrb595/mad_camp/assets/127878736/bbaf3c97-e398-4a62-a713-91072ed10883)
+<img src="https://github.com/alsrb595/mad_camp/assets/127878736/2c95a801-f16c-4f71-b317-79f4b29c3590" width="300"/>
+<img src="https://github.com/alsrb595/mad_camp/assets/127878736/964f28b2-7e6c-4c50-8c5a-e19b7244ca33" width="300"/>
+<img src="https://github.com/alsrb595/mad_camp/assets/127878736/bbaf3c97-e398-4a62-a713-91072ed10883" width="300"/>
 
 Widgets : `GridView`로 격자 모양의 사람별 폴더 제작, `SharedPreference`에 폴더 속 이미지를 기록하여 폴더 미리보기 화면을 폴더 속 첫 이미지로 반영
 
@@ -44,10 +45,22 @@ Widgets : `GridView`로 격자 모양의 사람별 폴더 제작, `SharedPrefere
 여행기록들을 정리하다보면 새로운 여행을 계획하게 되는 유저들을 위한 탭입니다.
 대한항공과 아시아나항공을 비롯한 국내 대표 항공사 9곳의 항공권 예매 홈페이지로 이동할 수 있고, 화면 하단에는 곧 예정된 여행에 대한 모바일 항공권 티켓을 저장할 수 있습니다.
 
-![image](https://github.com/alsrb595/mad_camp/assets/127878736/fdf80daf-5f30-428d-b6f2-30481d2bfcc7), ![image](https://github.com/alsrb595/mad_camp/assets/127878736/d992bd03-da94-4525-913b-417fc665a9a6)
+<img src="https://github.com/alsrb595/mad_camp/assets/127878736/fdf80daf-5f30-428d-b6f2-30481d2bfcc7" width="300"/>
+<img src="https://github.com/alsrb595/mad_camp/assets/127878736/d992bd03-da94-4525-913b-417fc665a9a6" width="300"/>
 
 
 
+## Demo Videos
+
+1 : People 탭에서 새 연락처 추가 및 Photos 탭과 연동
+
+2 : 연락처 선택 후 삭제 기능
+
+2 : 추가된 연락처 수정
+
+3 : Photos 탭에서 새 폴더 추가/삭제 기능 및 폴더 내 이미지 화면
+
+4 : Ticket 탭에서 항공사 예매 사이트 이동 및 화면 하단 티켓 스크롤 기능
 
 https://github.com/alsrb595/mad_camp/assets/127878736/3bfdff59-6937-41d1-bd06-082dcd069b05
 
